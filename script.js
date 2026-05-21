@@ -1,4 +1,4 @@
-const apiKey = 'YOUR_API_KEY_HERE'; // Replace with your real key
+const apiKey = 'e548e8210c3e4a8ab37150439262105';
 
 function getWeather() {
   const city = document.getElementById('cityInput').value.trim();
@@ -9,7 +9,8 @@ function getWeather() {
     return;
   }
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  // WeatherAPI URL
+  const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`;
 
   fetch(url)
     .then(res => {
@@ -17,12 +18,20 @@ function getWeather() {
       return res.json();
     })
     .then(data => {
-      console.log(data); // Debugging
+      console.log(data);
 
-      document.getElementById('cityName').innerText = `${data.name}, ${data.sys.country}`;
-      document.getElementById('temperature').innerText = `Temperature: ${data.main.temp} °C`;
-      document.getElementById('description').innerText = `Weather: ${data.weather[0].description}`;
-      document.getElementById('icon').src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+      // Display data
+      document.getElementById('cityName').innerText =
+        `${data.location.name}, ${data.location.country}`;
+
+      document.getElementById('temperature').innerText =
+        `Temperature: ${data.current.temp_c} °C`;
+
+      document.getElementById('description').innerText =
+        `Weather: ${data.current.condition.text}`;
+
+      document.getElementById('icon').src =
+        `https:${data.current.condition.icon}`;
 
       weatherInfo.classList.remove('hidden');
     })
